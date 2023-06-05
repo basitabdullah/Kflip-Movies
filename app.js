@@ -1,6 +1,9 @@
 let left_btn = document.getElementsByClassName("arrow1 bi bi-chevron-left")[0]
 let right_btn = document.getElementsByClassName("arrow2 bi bi-chevron-right")[0]
 let cards = document.getElementsByClassName("cards")[0]
+let search = document.getElementsByClassName("search")[0]
+let search_input = document.getElementById("search-input")
+
 left_btn.addEventListener("click",()=>{
     cards.scrollLeft -= 140
 })
@@ -14,8 +17,66 @@ fetch(url)
 .then(response => response.json())
 .then(data => {
 data.forEach((ele,i) => {
-    let{name,imdb,date,sposter,bposter,genre,url} = ele
+    let{name, imdb , date,sposter,bposter,genre,url} = ele
+    let card = document.createElement("a")
+    card.classList.add("card")
+    card.href = url
+    card.innerHTML = `
+    <a href="#" class="card">
+    <img src="${sposter}" class="poster" alt="${name}">
+    </a>
+
+    
+    
+    `
+    cards.appendChild(card)
     
 });
+document.getElementById("title").innerText = data[0].name
+document.getElementById("gen").innerText = data[0].genre
+document.getElementById("date").innerText = data[0].date
+document.getElementById("rate").innerHTML = `<span>IMDB</span><i class="bi bi-star"></i>
+<div>${data[0].imdb}`
+
+
+data.forEach(element => {
+    let{name,imdb,date,sposter,genre,url} = element
+    let card = document.createElement("a")
+    card.classList.add("card")
+    card.href = url
+    card.innerHTML = `
+    <img src="${sposter}" alt="" />
+    <div class="cont">
+      <h3>${name}</h3>
+      <p>${genre}, ${date}, <span>IMDB</span><i class="bi bi-star-fill"></i> ${imdb}</p>
+    </div>
+    
+    
+    `
+    search.appendChild(card)
+    
+});
+
+search_input.addEventListener("keyup",()=>{
+    let filter = search_input.value.toUpperCase();  
+    let a = search.getElementsByTagName("a")
+
+    for (let index = 0; index < a.length; index++) {
+      let b = a[index].getElementsByClassName("cont")[0]
+      let textValue = b.textContent || b.textContent
+      if(textValue.toUpperCase().indexOf(filter) > -1){
+     a[index].style.display = "flex"
+     search.style.visibility = "visible"
+     search.style.opacity = '1'
+      }  else{
+        a[index].style.display = "none"
+
+      }    
+     if(search_input.value == 0){
+        search.style.visibility = "hidden"
+        search.style.opacity = '0'
+     }
+    }
+})
 
 })

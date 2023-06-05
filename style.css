@@ -3,6 +3,7 @@
 * {
   padding: 0;
   margin: 0;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -146,7 +147,7 @@ header nav .search-user .search .card {
   margin-bottom: 5px;
   padding: 3px 0;
   text-decoration: none;
-  display: none;
+  /* display: none; */
 }
 header nav .search-user .search .card::before {
   content: "";
